@@ -3,6 +3,10 @@ module.exports = {
   content: ["./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Roboto", "sans-serif"],
+        // sans: "Robot, sans-serif",
+      },
       colors: {
         green: {
           300: "#00B37E",
