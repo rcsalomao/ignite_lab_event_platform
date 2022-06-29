@@ -1,5 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
-import { DefaultUi, Player, Youtube } from "@vime/react";
+// import { DefaultUi, Player, Youtube } from "@vime/react";
 import {
   CaretRight,
   CircleNotch,
@@ -9,7 +9,7 @@ import {
   Lightning,
 } from "phosphor-react";
 
-import "@vime/core/themes/default.css";
+// import "@vime/core/themes/default.css";
 
 interface GetLessonBySlugResponse {
   lesson: {
@@ -56,14 +56,21 @@ export function Video(props: LessonProps) {
     );
   }
 
+  // <Player> {//essa p***a de vimejs é toda zuada...}
+  // <Youtube videoId={data.lesson.videoId} />
+  // <DefaultUi />
+  // </Player>
   return (
     <div className="flex-1">
       <div className="bg-black flex justify-center">
         <div className="h-full w-full max-w-[1100px] max-h-[60vh] aspect-video">
-          <Player>
-            <Youtube videoId={data.lesson.videoId} />
-            <DefaultUi />
-          </Player>
+          <iframe
+            className="h-full w-full"
+            src={`https://www.youtube.com/embed/${data.lesson.videoId}`}
+            frameBorder="0"
+            allow="encrypted-media"
+            allowFullScreen
+          />
         </div>
       </div>
 
