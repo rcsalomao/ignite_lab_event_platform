@@ -56,7 +56,7 @@ export function Video(props: LessonProps) {
     );
   }
 
-  // <Player> {//essa p***a de vimejs é toda zuada...}
+  // <Player> {//essa biblioteca 'vimejs' não está dando muito certo não...}
   // <Youtube videoId={data.lesson.videoId} />
   // <DefaultUi />
   // </Player>
