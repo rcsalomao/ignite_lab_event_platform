@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+// import { gql, useQuery } from "@apollo/client";
 // import { DefaultUi, Player, Youtube } from "@vime/react";
 import {
   CaretRight,
@@ -8,47 +8,36 @@ import {
   Image,
   Lightning,
 } from "phosphor-react";
+import { useGetLessonBySlugQuery } from "../graphql/generated";
 
 // import "@vime/core/themes/default.css";
 
-interface GetLessonBySlugResponse {
-  lesson: {
-    title: string;
-    description: string;
-    videoId: string;
-    teacher: {
-      bio: string;
-      name: string;
-      avatarURL: string;
-    };
-  };
-}
-
-const GET_LESSON_BY_SLUG_QUERY = gql`
-  query GetLessonBySlug($slug: String) {
-    lesson(where: { slug: $slug }) {
-      teacher {
-        bio
-        name
-        avatarURL
-      }
-      videoId
-      title
-      description
-    }
-  }
-`;
+// interface GetLessonBySlugResponse {
+//   lesson: {
+//     title: string;
+//     description: string;
+//     videoId: string;
+//     teacher: {
+//       bio: string;
+//       name: string;
+//       avatarURL: string;
+//     };
+//   };
+// }
 
 interface LessonProps {
   lessonSlug: string;
 }
 
 export function Video(props: LessonProps) {
-  const { data } = useQuery<GetLessonBySlugResponse>(GET_LESSON_BY_SLUG_QUERY, {
+  // const { data } = useQuery<GetLessonBySlugResponse>(GET_LESSON_BY_SLUG_QUERY, {
+  //   variables: { slug: props.lessonSlug },
+  // });
+  const { data } = useGetLessonBySlugQuery({
     variables: { slug: props.lessonSlug },
   });
 
-  if (!data) {
+  if (!data || !data.lesson) {
     return (
       <div className="flex flex-1 items-center justify-center">
         <CircleNotch weight="bold" className="w-10 h-10 animate-spin" />
@@ -82,22 +71,25 @@ export function Video(props: LessonProps) {
               {data.lesson.description}
             </p>
 
-            <div className="flex items-center gap-4 mt-6">
-              <img
-                className="h-16 w-16 rounded-full border-2 border-blue-500"
-                src={data.lesson.teacher.avatarURL}
-                alt=""
-              />
-              <div className="leading-relaxed">
-                <strong className="font-bold text-2xl block">
-                  {data.lesson.teacher.name}
-                </strong>
-                <span className="text-sm text-gray-200 block">
-                  {data.lesson.teacher.bio}
-                </span>
+            {data.lesson.teacher && (
+              <div className="flex items-center gap-4 mt-6">
+                <img
+                  className="h-16 w-16 rounded-full border-2 border-blue-500"
+                  src={data.lesson.teacher.avatarURL}
+                  alt=""
+                />
+                <div className="leading-relaxed">
+                  <strong className="font-bold text-2xl block">
+                    {data.lesson.teacher.name}
+                  </strong>
+                  <span className="text-sm text-gray-200 block">
+                    {data.lesson.teacher.bio}
+                  </span>
+                </div>
               </div>
-            </div>
+            )}
           </div>
+
           <div className="flex flex-col gap-4">
             <a
               href=""
